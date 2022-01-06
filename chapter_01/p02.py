@@ -5,6 +5,11 @@ from collections import Counter, defaultdict
 import unittest, time
 
 def check_permutation_sorted(s1: str, s2: str) -> bool:
+    ''''
+    1. 檢查兩個字串長度是否相等
+    2. s1, s2 字串排序 
+    3. 兩個字串逐一比對
+    '''
     if len(s1) != len(s2):
         return False
     s1, s2 = sorted(s1), sorted(s2)
@@ -15,9 +20,33 @@ def check_permutation_sorted(s1: str, s2: str) -> bool:
 
 
 def check_permutation_counter(s1: str, s2: str) -> bool:
+    ''''
+    1. 檢查兩個字串長度是否相等
+    2. 用 collections.Counter() 檢查字元出現次數
+    '''
     if len(s1) != len(s2):
         return False
     return Counter(s1) == Counter(s2)
+
+def check_permutation_dic(s1: str, s2: str) -> bool:
+    ''''
+    1. 檢查兩個字串長度是否相等
+    2. 先把s1的 dic (字元:出現次數) 
+    3. 檢查s2的字元出現次數跟dic一致 (每出現一次 數量就-1)
+    '''
+    if len(s1) != len(s2):
+        return False
+    dic = {}
+    for c in s1:
+        if c in dic:
+            dic[c] += 1
+        else:
+            dic[c] = 1
+    for c in s2:
+        if c not in dic or dic[c] == 0:
+            return False
+        dic[c] -= 1
+    return True
 
 class test(unittest.TestCase):
     test_cases = [
@@ -36,6 +65,7 @@ class test(unittest.TestCase):
     test_fns = [
         check_permutation_sorted,
         check_permutation_counter,
+        check_permutation_dic,
     ]
 
     def test_check_permutation(self):

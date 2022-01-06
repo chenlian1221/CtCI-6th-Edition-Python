@@ -6,6 +6,10 @@ import time
 import unittest
 
 def is_unique_sorted(s: str) -> bool:
+    ''''
+    1. 先把字串排序
+    2. for loop, 每個字元都跟自己前一個比較
+    '''
     s = sorted(s)
     for i in range(1,len(s)):
         if s[i]==s[i-1]:
@@ -13,9 +17,17 @@ def is_unique_sorted(s: str) -> bool:
     return True
 
 def is_unique_set(s: str) -> bool:
+    ''''
+    直接用set的長度跟本來的長度做比較
+    '''
     return len(set(s)) == len(s)
 
 def is_unique_dict(s: str) -> bool:
+    ''''
+    1. 把字元出現次數存在dic  (key: 字元, val: 次數)
+    2. 只要每個字元出現就在dic加一筆
+    3. 新字串如果key已出現過 就表示重複 return False
+    '''
     dic = {}
     for c in s:
         if c in dic:
