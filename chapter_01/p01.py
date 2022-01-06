@@ -9,12 +9,20 @@ def is_unique_sorted(s: str) -> bool:
     s = sorted(s)
     for i in range(1,len(s)):
         if s[i]==s[i-1]:
-            return False
-        
+            return False    
     return True
 
 def is_unique_set(s: str) -> bool:
     return len(set(s)) == len(s)
+
+def is_unique_dict(s: str) -> bool:
+    dic = {}
+    for c in s:
+        if c in dic:
+            return False
+        dic[c] = 1
+    return True
+
 
 class Test(unittest.TestCase):
     test_cases = [
@@ -29,25 +37,26 @@ class Test(unittest.TestCase):
 
     test_fns = [
         is_unique_sorted,
-        is_unique_set
+        is_unique_set,
+        is_unique_dict
     ]
 
     def test_is_unique(self):
         runs = 1000
         fn_runtimes = defaultdict(float)
-
-        for text, expected in self.test_cases:
-            for fn in self.test_fns:
-                start = time.perf_counter()
-                assert(
-                    fn(text) == expected
-                ), f"{fn.__name__} failed for value: {text}"
-                fn_runtimes[fn.__name__] += (
-                    time.perf_counter() - start
-                ) * 1000
+        for _ in range(runs):
+            for text, expected in self.test_cases:
+                for fn in self.test_fns:
+                    start = time.perf_counter()
+                    assert(
+                        fn(text) == expected
+                    ), f"{fn.__name__} failed for value: {text}"
+                    fn_runtimes[fn.__name__] += (
+                        time.perf_counter() - start
+                    ) * 1000
         print(f"\n{runs} runs")
         for fn_name, runtime in fn_runtimes.items():
-            print(f"{fn_name}: {runtime:.1f}ms")
+            print(f"{fn_name}: {runtime:.1f} ms")
 
 if __name__=='__main__':
     unittest.main()
