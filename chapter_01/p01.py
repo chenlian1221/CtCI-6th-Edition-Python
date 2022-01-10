@@ -35,7 +35,12 @@ def is_unique_dict(s: str) -> bool:
         dic[c] = 1
     return True
 
-
+"""
+1000 runs
+is_unique_sorted: 26.0 ms
+is_unique_set: 12.8 ms
+is_unique_dict: 18.6 ms
+"""
 class Test(unittest.TestCase):
     test_cases = [
         ("abcd", True),

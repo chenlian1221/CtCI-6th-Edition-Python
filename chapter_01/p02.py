@@ -47,7 +47,12 @@ def check_permutation_dic(s1: str, s2: str) -> bool:
             return False
         dic[c] -= 1
     return True
-
+"""
+1000 runs
+check_permutation_sorted: 19.7 ms
+check_permutation_counter: 47.8 ms
+check_permutation_dic: 17.7 ms
+"""
 class test(unittest.TestCase):
     test_cases = [
         ("dog", "god", True),

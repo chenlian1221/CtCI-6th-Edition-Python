@@ -26,6 +26,12 @@ def is_palindrome_permutation_counter(s: str) -> bool:
             return False
     return True
 
+def is_palindrome_permutation_counter_sum(s: str) -> bool:
+    """
+    只能有一個或零個字元出現為奇數
+    """
+    cnt = Counter(list(s.replace(" ", "").lower()))
+    return sum(v%2 for v in cnt.values()) <= 1
 
 class test(unittest.TestCase):
     test_cases = [
@@ -45,6 +51,7 @@ class test(unittest.TestCase):
     ]
     test_fns = [
         is_palindrome_permutation_counter,
+        is_palindrome_permutation_counter_sum,
     ]
 
     def test_is_palindrome_permutation(self):

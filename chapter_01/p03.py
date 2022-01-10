@@ -56,6 +56,12 @@ $ python -m timeit "reversed(range(1000000000))"
 $ python -m timeit "range(1000000000)[::-1]"
 1000000 loops, best of 3: 0.945 usec per loop
 
+
+1000
+urlify_python_lib: 4.235400 ms
+urlify_reversed: 20.788300 ms
+urlify_dic: 16.381200 ms
+
 '''
 
 class Test(unittest.TestCase):
