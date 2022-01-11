@@ -9,12 +9,27 @@ In other words,
 return `true` if one of `s1`'s permutations is the substring of `s2`.
 """
 
-from collections import defaultdict
+from collections import defaultdict, Counter
 import time, unittest
 
 def check_inclusion(s1, s2) -> bool:
+    # len(s1) <= len(s2)
+    cnt1 = Counter(s1)
+    cnt2 = Counter(s2[:len(s1)-1])
 
-    return
+    for i in range(len(s1)-1,len(s2)):
+        curr, start = i, i-len(s1)+1
+
+        cnt2[s2[curr]] += 1
+
+        if cnt1 == cnt2:
+            return True
+
+        cnt2[s2[start]] -= 1 # window往右移，把地一個位置的cnt丟掉
+
+        if cnt2[s2[start]] == 0:
+            del cnt2[s2[start]]
+    return False
 
 class test(unittest.TestCase):
     
