@@ -8,18 +8,45 @@
 from collections import defaultdict
 import unittest, time
 
-def rotate_matrix(matrix):
-    return
+def rotate_matrix_basic(matrix):
+    n = len(matrix)
+    result = [[0]*n for _ in range(n)]
+
+    for i in range(n):
+        for j in range(n):
+            result[i][j] = matrix[n-1-j][i] 
+    # print(result)
+    return result
 
 
 
 class test(unittest.TestCase):
 
     test_cases = [
-
+        (
+            [[1, 2, 3], [4, 5, 6], [7, 8, 9]], 
+            [[7, 4, 1], [8, 5, 2], [9, 6, 3]]
+        ),
+        (
+            [
+                [1, 2, 3, 4, 5],
+                [6, 7, 8, 9, 10],
+                [11, 12, 13, 14, 15],
+                [16, 17, 18, 19, 20],
+                [21, 22, 23, 24, 25],
+            ],
+            [
+                [21, 16, 11, 6, 1],
+                [22, 17, 12, 7, 2],
+                [23, 18, 13, 8, 3],
+                [24, 19, 14, 9, 4],
+                [25, 20, 15, 10, 5],
+            ],
+        ),
     ]
 
     test_fns = [
+        rotate_matrix_basic,
 
     ]
 
@@ -38,6 +65,7 @@ class test(unittest.TestCase):
                     fn_runtimes[fn.__name__] += (
                         time.perf_counter() - start
                     ) * 1000
+
 
         print(f"{runs} runs")
         for fn_name, fn_runtime in fn_runtimes.items():
