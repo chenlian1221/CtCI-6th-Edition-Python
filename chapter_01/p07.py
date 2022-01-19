@@ -17,6 +17,7 @@ def rotate_matrix_basic(matrix):
         for j in range(i,n):
             matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
         matrix[i] = matrix[i][::-1]
+    return matrix
 
 class test(unittest.TestCase):
 
