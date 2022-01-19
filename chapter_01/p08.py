@@ -4,20 +4,21 @@
 """
 
 from collections import defaultdict
+from copy import deepcopy
 from typing import List
 import unittest, time
 
 def rotate_matrix(matrix: List)->List:
-    record_i, record_j = [],[]
+    record_i, record_j = set(), set()
     row, col = len(matrix), len(matrix[0])
-    for i in row:
-        for j in col:
+    for i in range(row):
+        for j in range(col):
             if matrix[i][j] == 0:
-                record_i.append(i)
-                record_j.append(j)
-    for i in row:
-        for j in col:     
-            if i in record_i or j in record_j:
+                record_i.add(i)
+                record_j.add(j)
+    for i in range(row):
+        for j in range(col):     
+            if (i in record_i) or (j in record_j):
                 matrix[i][j] = 0
 
     return matrix
@@ -55,6 +56,7 @@ class test(unittest.TestCase ):
                 for fn in self.test_fns:
 
                     start = time.perf_counter()
+                    mat = deepcopy(mat)
                     assert(
                         fn(mat) == expected
                     ), f"{fn.__name__} failed for {mat}"
