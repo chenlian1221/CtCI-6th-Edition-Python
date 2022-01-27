@@ -16,16 +16,28 @@ class LinkedList:
 
 
 def remove_dep(list: LinkedList) -> LinkedList:
-
+    cur = list.head
+    seen = set()
+    while cur:
+        if cur.value in seen:
+            pass
+        else:
+            seen.add(cur.value)
     return
 
 class test(unittest):
 
     test_cases = [
-
+        ([], []),
+        ([1, 1, 1, 1, 1, 1], [1]),
+        ([1, 2, 3, 2], [1, 2, 3]),
+        ([1, 2, 2, 3], [1, 2, 3]),
+        ([1, 1, 2, 3], [1, 2, 3]),
+        ([1, 2, 3], [1, 2, 3]),
     ]
 
     test_fns = [
+        remove_dep,
 
     ]
     def test_remove_dep(self):
