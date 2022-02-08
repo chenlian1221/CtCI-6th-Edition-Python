@@ -13,6 +13,8 @@ class LinkedList:
         self.curr = None
         self.tail = None
         self.value = value
+    def values(self):
+        return [x.value() for x in self]
 
 
 def remove_dep(list: LinkedList) -> LinkedList:
@@ -23,9 +25,10 @@ def remove_dep(list: LinkedList) -> LinkedList:
             pass
         else:
             seen.add(cur.value)
-    return
+            cur = cur.next 
+    return list
 
-class test(unittest):
+class test(unittest.TestCase):
 
     test_cases = [
         ([], []),
@@ -49,13 +52,15 @@ class test(unittest):
             for ll, expected in self.test_cases:
                 for fn in self.test_fns:
                     start = time.perf_counter()
+                    expected = expected.copy()
+                    dep = fn(LinkedList(ll))
                     assert(
-                        fn(ll) == expected
+                        dep.values() == expected
                     ), f"{fn.__name__} failed for value {ll}"
                     fn_runtimes[fn.__name__] += (
                         time.perf_counter() - start
                     ) * 1000
-        print(f"{runs} runs")
+        print(f"\n{runs} runs")
         for fn_name, fn_runtime in fn_runtimes.items():
             print(f"{fn_name}: {fn_runtime:.1f} ms")
 
