@@ -3,30 +3,23 @@
 延伸：如果不允許使用暫存記憶體，如何解決這個問題？
 """
 
-
+from linked_list import LinkedList, LinkedListNode
 from collections import defaultdict
 import unittest, time
 
-class LinkedList:
-    def __init__(self, value = None):
-        self.head = None
-        self.curr = None
-        self.tail = None
-        self.value = value
-    def values(self):
-        return [x.value() for x in self]
 
-
-def remove_dep(list: LinkedList) -> LinkedList:
-    cur = list.head
+def remove_dep(ll: LinkedList) -> LinkedList:
+    prev, curr = None, ll.head
     seen = set()
-    while cur:
-        if cur.value in seen:
-            pass
+    while curr:
+        if curr.value in seen:
+            prev = curr.next
         else:
-            seen.add(cur.value)
-            cur = cur.next 
-    return list
+            seen.add(curr.value)
+            prev = curr
+        curr = curr.next
+    ll.tail = prev
+    return ll
 
 class test(unittest.TestCase):
 
@@ -54,9 +47,13 @@ class test(unittest.TestCase):
                     start = time.perf_counter()
                     expected = expected.copy()
                     dep = fn(LinkedList(ll))
+                    print(dep.values(), expected)
                     assert(
                         dep.values() == expected
                     ), f"{fn.__name__} failed for value {ll}"
+                    dep.add(5)
+                    expected.append(5)
+                    assert dep.values() == expected
                     fn_runtimes[fn.__name__] += (
                         time.perf_counter() - start
                     ) * 1000
