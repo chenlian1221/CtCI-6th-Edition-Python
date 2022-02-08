@@ -1,69 +1,72 @@
 '''
-迴圈檢測
-假設給定一個環圈鏈結串，請實作一個演算法，該演算法會回傳迴圈開始處的節點。
-定義：
-迴圈鏈結串：是一個鏈結串列，其中節點的下一個指標指向之前某個節點，從而在鏈結串列中形成一個迴圈。
-Example:
-input: A → B → C → D → E → F → C 前面出現過一樣的C
-output: C
+142. Linked List Cycle II
+Medium
+Given the head of a linked list, return the node where the cycle begins. 
+If there is no cycle, return null.
+There is a cycle in a linked list 
+    if there is some node in the list that can be reached again by continuously following the next pointer. 
+    Internally, pos is used to denote the index of the node that tail's next pointer is connected to (0-indexed). 
+It is -1 if there is no cycle. 
+Note that pos is not passed as a parameter.
+Do not modify the linked list.
 '''
-import re
-from linkedlist import LinkedList
+
+
+from linked_list import LinkedList, LinkedListNode
 from collections import defaultdict
 import unittest, time
 
-def find_cycle(ll: LinkedList):
-    slow, fast = ll.head, ll.head
+def detect_cycle(ll: LinkedList):
+    fast, slow = ll.head, ll.head
+
     while fast and fast.next:
-        slow = slow.next
         fast = fast.next.next
+        slow = slow.next
         if slow is fast:
-            break # return fast
-        # 找到slow, fast是一樣的時候，還要逐一比較它們後面的listnode
+            break
     
     if fast is None or fast.next is None:
         return None
-
+    
     slow = ll.head
     while slow is not fast:
         slow = slow.next
         fast = fast.next
-        
+
     return fast
 
 class test(unittest.TestCase):
+    
     looped_list = LinkedList(["A", "B", "C", "D", "E"])
     loop_start_node = looped_list.head.next.next
     looped_list.tail.next = loop_start_node
     test_cases = [
         (LinkedList(), None),
+        ((LinkedList([1])), None),
         ((LinkedList((1, 2, 3))), None),
         (looped_list, loop_start_node),
     ]
 
     test_fns = [
-        find_cycle,
-
+        detect_cycle, 
     ]
 
-    def test_find_cycle(self):
+    def test_detect_cycle(self):
         runs = 1000
         fn_runtimes = defaultdict(float)
-
         for _ in range(runs):
             for test, expected in self.test_cases:
                 for fn in self.test_fns:
                     start = time.perf_counter()
-                    # expected = expected.copy()
-                    # print(fn(test), expected)
-                    assert(fn(test) == expected), f"{fn.__name__} failed for value {test}"
+                    assert(
+                        fn(test) == expected
+                    ),f"{fn.__name__} failed for value {test}"
                     fn_runtimes[fn.__name__] += (
                         time.perf_counter() - start
                     ) * 1000
-
-        print(f"{runs} runs")
+        print(f"\n{runs} runs")
         for fn_name, fn_runtime in fn_runtimes.items():
             print(f"{fn_name}: {fn_runtime:.1f} ms")
 
-if __name__=='__main__':
+if __name__ == '__main__':
     unittest.main()
