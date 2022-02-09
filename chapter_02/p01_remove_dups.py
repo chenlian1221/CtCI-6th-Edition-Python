@@ -58,7 +58,7 @@ def test_remove_dupes():
                 assert deduped.values() == expected
 
         duration = time.perf_counter() - start
-        print(f"{f.__name__} {duration * 1000:.1f}ms")
+        print(f"{f.__name__} {duration * 1000:.1f} ms")
 
 
 def example():

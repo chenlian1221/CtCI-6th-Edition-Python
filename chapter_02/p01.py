@@ -13,12 +13,25 @@ def remove_dep(ll: LinkedList) -> LinkedList:
     seen = set()
     while curr:
         if curr.value in seen:
-            prev = curr.next
+            prev.next = curr.next
         else:
             seen.add(curr.value)
             prev = curr
         curr = curr.next
     ll.tail = prev
+    return ll
+
+def remove_dep_no_buffer(ll: LinkedList) -> LinkedList:
+    temp = curr = ll.head
+    while curr:
+        temp = curr 
+        while temp.next:
+            if temp.next.value == curr.value:
+                temp.next = temp.next.next
+            else:
+                temp = temp.next
+        curr = curr.next
+    ll.tail = temp
     return ll
 
 class test(unittest.TestCase):
@@ -34,7 +47,7 @@ class test(unittest.TestCase):
 
     test_fns = [
         remove_dep,
-
+        remove_dep_no_buffer
     ]
     def test_remove_dep(self):
 
@@ -47,7 +60,7 @@ class test(unittest.TestCase):
                     start = time.perf_counter()
                     expected = expected.copy()
                     dep = fn(LinkedList(ll))
-                    print(dep.values(), expected)
+                    # print(dep.values(), expected)
                     assert(
                         dep.values() == expected
                     ), f"{fn.__name__} failed for value {ll}"
