@@ -1,4 +1,4 @@
-from chapter_02.linked_list import LinkedList
+from linked_list import LinkedList
 
 
 def partition(ll, x):
@@ -23,7 +23,7 @@ def partition(ll, x):
 def example():
 
     ll = LinkedList.generate(10, 0, 99)
-    print(ll)
+    print(ll, ll.head.value)
     partition(ll, ll.head.value)
     print(ll)
 
