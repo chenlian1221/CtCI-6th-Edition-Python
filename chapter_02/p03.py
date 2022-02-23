@@ -10,24 +10,34 @@ output: 不回傳任何結果，但是新的鏈結串要看起來像  a → b �
 from linkedlist import LinkedList, LinkedListNode
 from collections import defaultdict
 import unittest, time
-def partition(ll: LinkedList):
-    return
+def delete_middle_node(node: LinkedListNode):
+    node.value = node.next.value
+    node.next = node.next.next
+    
 
 
 class test(unittest.TestCase):
     test_cases = [
-
+        ([1, 2, 3,4, 5, 7, 8, 9], 5, [1, 2, 3, 4, 7, 8, 9]),
     ]
 
     test_fns = [
-
+        delete_middle_node
     ]
 
-    def test_partition(self):
+    def test_delete_middle_node(self):
         runs = 1000
+        fn_runtimes = 0.0
 
         for _ in range(runs):
-            for test, expected in self.test_cases:
-                for fn in self.test_fns:
-                    start = time.perf_counter()
-                    
+            for test, n, expected in self.test_cases:
+                start = time.perf_counter()
+                ll = LinkedList(test)
+                node = LinkedListNode(n)
+                assert(delete_middle_node(node) == LinkedList(expected)), f"failed by {node}"
+                fn_runtimes += (time.perf_counter() - start) * 1000
+        print(f"{runs} runs")
+        print(f"runtimes: {fn_runtimes:.1f} ms")
+
+if __name__=='__main__':
+    unittest.main()
